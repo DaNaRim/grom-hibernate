@@ -3,32 +3,33 @@ package lesson2.homework1;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "product")
 public class Product {
+
     private long id;
     private String name;
     private String description;
     private int price;
 
     @Id
-    @SequenceGenerator(name = "PR_SEQ", sequenceName = "PRODUCT_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PR_SEQ")
-    @Column(name = "ID")
+    @SequenceGenerator(name = "pr_seq", sequenceName = "product_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pr_seq")
+    @Column(name = "id")
     public long getId() {
         return id;
     }
 
-    @Column(name = "NAME")
+    @Column(name = "name")
     public String getName() {
         return name;
     }
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
 
-    @Column(name = "PRICE")
+    @Column(name = "price")
     public int getPrice() {
         return price;
     }

@@ -3,6 +3,7 @@ package lesson4.model;
 import java.util.Date;
 
 public class Filter {
+
     private final Integer numberOfGuests;
     private final Double price;
     private final Boolean breakfastIncluded;
@@ -11,8 +12,13 @@ public class Filter {
     private final String country;
     private final String city;
 
-    public Filter(Integer numberOfGuests, Double price, Boolean breakfastIncluded, Boolean petsAllowed,
-                  Date dateAvailableFrom, String country, String city) {
+    public Filter(Integer numberOfGuests,
+                  Double price,
+                  Boolean breakfastIncluded,
+                  Boolean petsAllowed,
+                  Date dateAvailableFrom,
+                  String country,
+                  String city) {
         this.numberOfGuests = numberOfGuests;
         this.price = price;
         this.breakfastIncluded = breakfastIncluded;

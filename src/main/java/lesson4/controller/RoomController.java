@@ -10,6 +10,7 @@ import lesson4.service.RoomService;
 import java.util.List;
 
 public class RoomController {
+
     private static final RoomService roomService = new RoomService();
 
     public List<Room> findRooms(Filter filter) throws BadRequestException, InternalServerException {

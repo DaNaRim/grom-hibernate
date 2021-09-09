@@ -4,8 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "ROOM")
+@Table(name = "room")
 public class Room {
+
     private long id;
     private int numberOfGuests;
     private double price;
@@ -27,40 +28,40 @@ public class Room {
     }
 
     @Id
-    @SequenceGenerator(name = "RoomSeq", sequenceName = "ROOM_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RoomSeq")
-    @Column(name = "ID")
+    @SequenceGenerator(name = "roomSeq", sequenceName = "room_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roomSeq")
+    @Column(name = "id")
     public long getId() {
         return id;
     }
 
-    @Column(name = "NUMBER_OF_GUESTS")
+    @Column(name = "number_of_guests")
     public int getNumberOfGuests() {
         return numberOfGuests;
     }
 
-    @Column(name = "PRICE")
+    @Column(name = "price")
     public double getPrice() {
         return price;
     }
 
-    @Column(name = "BREAKFAST_INCLUDED")
+    @Column(name = "breakfast_included")
     public int getBreakfastIncluded() {
         return breakfastIncluded;
     }
 
-    @Column(name = "PETS_ALLOWED")
+    @Column(name = "pets_allowed")
     public int getPetsAllowed() {
         return petsAllowed;
     }
 
-    @Column(name = "DATE_AVAILABLE_FROM")
+    @Column(name = "date_available_from")
     public Date getDateAvailableFrom() {
         return dateAvailableFrom;
     }
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "HOTEL_ID")
+    @JoinColumn(name = "hotel_id")
     public Hotel getHotel() {
         return hotel;
     }

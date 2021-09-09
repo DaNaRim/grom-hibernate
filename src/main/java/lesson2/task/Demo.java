@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Demo {
+
     public static void main(String[] args) {
         Product product = new Product();
         product.setName("table new2");

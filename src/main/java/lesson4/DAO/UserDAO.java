@@ -10,8 +10,8 @@ import javax.persistence.NoResultException;
 import java.util.List;
 
 public class UserDAO extends DAO<User> {
-    private static final String logInQuery = "SELECT * FROM USERS WHERE USERNAME = :username";
-    private static final String checkUsernameQuery = "SELECT * FROM USERS WHERE USERNAME = :username";
+
+    private static final String QUERY_FIND_BY_USERNAME = "SELECT * FROM users WHERE username = :username";
 
     public UserDAO(Class<User> userClass) {
         super(userClass);
@@ -20,7 +20,7 @@ public class UserDAO extends DAO<User> {
     public User logIn(String userName, String password) throws InternalServerException, BadRequestException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            List<User> users = session.createNativeQuery(logInQuery, User.class)
+            List<User> users = session.createNativeQuery(QUERY_FIND_BY_USERNAME, User.class)
                     .setParameter("username", userName)
                     .list();
 
@@ -43,7 +43,7 @@ public class UserDAO extends DAO<User> {
     public void checkUsername(String userName) throws InternalServerException, BadRequestException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            session.createNativeQuery(checkUsernameQuery, User.class)
+            session.createNativeQuery(QUERY_FIND_BY_USERNAME, User.class)
                     .setParameter("username", userName)
                     .getSingleResult();
 

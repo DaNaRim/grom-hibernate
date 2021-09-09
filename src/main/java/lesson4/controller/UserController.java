@@ -9,6 +9,7 @@ import lesson4.model.UserType;
 import lesson4.service.UserService;
 
 public class UserController {
+
     private static final UserService userService = new UserService();
 
     public User registerUser(User user) throws InternalServerException, BadRequestException {
@@ -25,6 +26,7 @@ public class UserController {
 
     public void setUserType(Long id, UserType userType)
             throws InternalServerException, NoAccessException, BadRequestException {
+
         userService.setUserType(id, userType);
     }
 }

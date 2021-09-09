@@ -3,8 +3,9 @@ package lesson3.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "HOTEL")
+@Table(name = "hotel")
 public class Hotel {
+
     private long id;
     private String name;
     private String country;
@@ -22,29 +23,29 @@ public class Hotel {
     }
 
     @Id
-    @SequenceGenerator(name = "HotelSeq", sequenceName = "HOTEL_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HotelSeq")
-    @Column(name = "ID")
+    @SequenceGenerator(name = "hotelSeq", sequenceName = "hotel_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hotelSeq")
+    @Column(name = "id")
     public long getId() {
         return id;
     }
 
-    @Column(name = "NAME")
+    @Column(name = "name")
     public String getName() {
         return name;
     }
 
-    @Column(name = "COUNTRY")
+    @Column(name = "country")
     public String getCountry() {
         return country;
     }
 
-    @Column(name = "CITY")
+    @Column(name = "city")
     public String getCity() {
         return city;
     }
 
-    @Column(name = "STREET")
+    @Column(name = "street")
     public String getStreet() {
         return street;
     }

@@ -13,10 +13,17 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDAO extends DAO<Order> {
+
     private static final RoomDAO roomDAO = new RoomDAO(Room.class);
 
-    private static final String findOrderByRoomAndUserQuery = "SELECT * FROM ORDERS WHERE ROOM_ID = :roomId AND USER_ID = :userId";
-    private static final String checkRoomForBusyQuery = "SELECT * FROM ORDERS WHERE ROOM_ID = :roomId AND DATE_TO > CURRENT_DATE";
+    private static final String QUERY_FIND_ORDER_BY_ROOM_AND_USER =
+            "SELECT * FROM orders"
+                    + " WHERE room_id = :roomId"
+                    + "   AND user_id = :userId";
+    private static final String QUERY_CHECK_ROOM_FOR_BUSY =
+            "SELECT * FROM orders"
+                    + " WHERE room_id = :roomId"
+                    + "   AND date_to > CURRENT_DATE";
 
     public OrderDAO(Class<Order> orderClass) {
         super(orderClass);
@@ -25,7 +32,7 @@ public class OrderDAO extends DAO<Order> {
     public Order findOrderByRoomAndUser(long roomId, long userId) throws InternalServerException, BadRequestException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            return session.createNativeQuery(findOrderByRoomAndUserQuery, Order.class)
+            return session.createNativeQuery(QUERY_FIND_ORDER_BY_ROOM_AND_USER, Order.class)
                     .setParameter("roomId", roomId)
                     .setParameter("userId", userId)
                     .getSingleResult();
@@ -43,7 +50,7 @@ public class OrderDAO extends DAO<Order> {
         List<Order> orders = null;
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            orders = session.createNativeQuery(checkRoomForBusyQuery, Order.class)
+            orders = session.createNativeQuery(QUERY_CHECK_ROOM_FOR_BUSY, Order.class)
                     .setParameter("roomId", roomId)
                     .list();
 

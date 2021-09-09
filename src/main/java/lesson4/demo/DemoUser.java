@@ -7,6 +7,7 @@ import lesson4.exception.NoAccessException;
 import lesson4.model.UserType;
 
 public class DemoUser {
+
     private static final UserController userController = new UserController();
 
     public static void main(String[] args)

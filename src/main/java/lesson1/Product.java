@@ -6,30 +6,31 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "product")
 public class Product {
+
     private long id;
     private String name;
     private String description;
     private int price;
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     public long getId() {
         return id;
     }
 
-    @Column(name = "NAME")
+    @Column(name = "name")
     public String getName() {
         return name;
     }
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
 
-    @Column(name = "PRICE")
+    @Column(name = "price")
     public int getPrice() {
         return price;
     }

@@ -7,6 +7,7 @@ import lesson4.exception.InternalServerException;
 import lesson4.exception.NoAccessException;
 
 public class DemoHotel {
+
     private static final HotelController hotelController = new HotelController();
     private static final UserController userController = new UserController();
 
@@ -18,7 +19,7 @@ public class DemoHotel {
 //        userController.login("DANARIM", "SuperPassword");
 
 //        Hotel hotel = new Hotel("TestHotel3", "Ukraine", "TestCity3", "TestStreet");
-////
+
 //        hotelController.addHotel(hotel);
 
 //        System.out.println(hotelController.findHotelByCity("TestCity3").toString());

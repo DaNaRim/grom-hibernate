@@ -12,6 +12,7 @@ import lesson4.model.Room;
 import java.util.List;
 
 public class RoomService {
+
     private static final RoomDAO roomDAO = new RoomDAO(Room.class);
     private static final HotelDAO hotelDAO = new HotelDAO(Hotel.class);
     private static final UserService userService = new UserService();

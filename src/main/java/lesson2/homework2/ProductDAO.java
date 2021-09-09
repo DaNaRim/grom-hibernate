@@ -1,20 +1,23 @@
 package lesson2.homework2;
 
-import org.hibernate.*;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
 public class ProductDAO {
+
     private static SessionFactory sessionFactory;
 
     public static Product findById(long id) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "SELECT * FROM Product WHERE id = :Id";
+            String sql = "SELECT * FROM product WHERE id = :id";
 
             return session.createNativeQuery(sql, Product.class)
-                    .setParameter("Id", id)
+                    .setParameter("id", id)
                     .getSingleResult();
 
         } catch (HibernateException e) {
@@ -25,10 +28,10 @@ public class ProductDAO {
     public static List<Product> findByName(String name) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "SELECT * FROM Product WHERE name = :Name";
+            String sql = "SELECT * FROM product WHERE name = :name";
 
             return session.createNativeQuery(sql, Product.class)
-                    .setParameter("Name", name)
+                    .setParameter("name", name)
                     .list();
 
         } catch (HibernateException e) {
@@ -39,10 +42,10 @@ public class ProductDAO {
     public static List<Product> findByContainedName(String name) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "SELECT * FROM Product WHERE name LIKE :ContainedName";
+            String sql = "SELECT * FROM product WHERE name LIKE :containedName";
 
             return session.createNativeQuery(sql, Product.class)
-                    .setParameter("ContainedName", "%" + name + "%")
+                    .setParameter("containedName", "%" + name + "%")
                     .list();
 
         } catch (HibernateException e) {
@@ -53,7 +56,7 @@ public class ProductDAO {
     public static List<Product> findByPrice(int price, int delta) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "SELECT * FROM Product WHERE price BETWEEN :minValue AND :maxValue";
+            String sql = "SELECT * FROM product WHERE price BETWEEN :minValue AND :maxValue";
 
             return session.createNativeQuery(sql, Product.class)
                     .setParameter("minValue", price - delta)
@@ -68,7 +71,7 @@ public class ProductDAO {
     public static List<Product> findByNameSortedAsc(String name) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "SELECT * FROM Product WHERE name LIKE :ContainedName ORDER BY name";
+            String sql = "SELECT * FROM product WHERE name LIKE :ContainedName ORDER BY name";
 
             return session.createNativeQuery(sql, Product.class)
                     .setParameter("ContainedName", "%" + name + "%")
@@ -82,10 +85,10 @@ public class ProductDAO {
     public static List<Product> findByNameSortedDesc(String name) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "SELECT * FROM Product WHERE name LIKE :ContainedName ORDER BY name DESC";
+            String sql = "SELECT * FROM product WHERE name LIKE :containedName ORDER BY name DESC";
 
             return session.createNativeQuery(sql, Product.class)
-                    .setParameter("ContainedName", "%" + name + "%")
+                    .setParameter("containedName", "%" + name + "%")
                     .list();
 
         } catch (HibernateException e) {
@@ -96,7 +99,7 @@ public class ProductDAO {
     public static List<Product> findByPriceSortedDesc(int price, int delta) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "SELECT * FROM Product WHERE price BETWEEN :minValue AND :maxValue ORDER BY price DESC";
+            String sql = "SELECT * FROM product WHERE price BETWEEN :minValue AND :maxValue ORDER BY price DESC";
 
             return session.createNativeQuery(sql, Product.class)
                     .setParameter("minValue", price - delta)

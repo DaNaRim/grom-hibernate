@@ -11,6 +11,7 @@ import lesson4.model.Hotel;
 import java.text.ParseException;
 
 public class DemoRoom {
+
     private static final RoomController roomController = new RoomController();
     private static final UserController userController = new UserController();
     private static final HotelDAO hotelDAO = new HotelDAO(Hotel.class);

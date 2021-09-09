@@ -13,6 +13,7 @@ import lesson4.model.User;
 import java.util.Date;
 
 public class OrderService {
+
     private static final OrderDAO orderDAO = new OrderDAO(Order.class);
     private static final RoomDAO roomDAO = new RoomDAO(Room.class);
     private static final UserDAO userDAO = new UserDAO(User.class);
@@ -20,6 +21,7 @@ public class OrderService {
 
     public void bookRoom(long roomId, long userId, Date dateFrom, Date dateTo)
             throws InternalServerException, NoAccessException, BadRequestException {
+
         validateRoomAndUser(roomId, userId);
         userService.checkUserForOperation(userId);
         validateOrder(roomId, dateFrom, dateTo);
@@ -30,6 +32,7 @@ public class OrderService {
 
     public void cancelReservation(long roomId, long userId)
             throws InternalServerException, NoAccessException, BadRequestException {
+
         validateRoomAndUser(roomId, userId);
         userService.checkUserForOperation(userId);
         validateCancellation(roomId, userId);
@@ -40,6 +43,7 @@ public class OrderService {
 
     private void validateCancellation(long roomId, long userId)
             throws InternalServerException, BadRequestException {
+
         Date orderDateFrom = orderDAO.findOrderByRoomAndUser(roomId, userId).getDateFrom();
 
         if (orderDateFrom.before(new Date())) {
@@ -49,6 +53,7 @@ public class OrderService {
 
     private void validateOrder(long roomId, Date dateFrom, Date dateTo)
             throws InternalServerException, BadRequestException {
+
         if (dateFrom == null || dateTo == null) {
             throw new BadRequestException("validateOrder failed: not all fields are filled correctly");
         }
@@ -65,6 +70,7 @@ public class OrderService {
 
     private Order createOrder(long roomId, long userId, Date dateFrom, Date dateTo)
             throws InternalServerException, BadRequestException {
+
         return new Order(
                 userDAO.findById(userId),
                 roomDAO.findById(roomId),

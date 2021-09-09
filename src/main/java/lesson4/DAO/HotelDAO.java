@@ -10,9 +10,15 @@ import javax.persistence.NoResultException;
 import java.util.List;
 
 public class HotelDAO extends DAO<Hotel> {
-    private static final String findHotelByNameQuery = "SELECT * FROM HOTEL WHERE NAME = :name";
-    private static final String findHotelByCityQuery = "SELECT * FROM HOTEL WHERE CITY = :city";
-    private static final String isHotelExistQuery = "SELECT * FROM HOTEL WHERE NAME = :name AND COUNTRY = :country AND CITY = :city AND STREET = :street";
+
+    private static final String QUERY_FIND_HOTEL_BY_NAME = "SELECT * FROM hotel WHERE name = :name";
+    private static final String QUERY_FIND_HOTEL_BY_CITY = "SELECT * FROM hotel WHERE city = :city";
+    private static final String QUERY_IS_HOTEL_EXIST =
+            "SELECT * FROM hotel"
+                    + " WHERE name = :name"
+                    + "   AND country = :country"
+                    + "   AND city = :city"
+                    + "   AND street = :street";
 
     public HotelDAO(Class<Hotel> hotelClass) {
         super(hotelClass);
@@ -21,7 +27,7 @@ public class HotelDAO extends DAO<Hotel> {
     public List<Hotel> findHotelByName(String name) throws InternalServerException, BadRequestException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            List<Hotel> hotels = session.createNativeQuery(findHotelByNameQuery, Hotel.class)
+            List<Hotel> hotels = session.createNativeQuery(QUERY_FIND_HOTEL_BY_NAME, Hotel.class)
                     .setParameter("name", name)
                     .list();
 
@@ -38,7 +44,7 @@ public class HotelDAO extends DAO<Hotel> {
     public List<Hotel> findHotelByCity(String city) throws InternalServerException, BadRequestException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            List<Hotel> hotels = session.createNativeQuery(findHotelByCityQuery, Hotel.class)
+            List<Hotel> hotels = session.createNativeQuery(QUERY_FIND_HOTEL_BY_CITY, Hotel.class)
                     .setParameter("city", city)
                     .list();
 
@@ -55,7 +61,7 @@ public class HotelDAO extends DAO<Hotel> {
     public void isHotelExist(Hotel hotel) throws InternalServerException, BadRequestException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            Hotel hotel1 = session.createNativeQuery(isHotelExistQuery, Hotel.class)
+            Hotel hotel1 = session.createNativeQuery(QUERY_IS_HOTEL_EXIST, Hotel.class)
                     .setParameter("name", hotel.getName())
                     .setParameter("country", hotel.getCountry())
                     .setParameter("city", hotel.getCity())

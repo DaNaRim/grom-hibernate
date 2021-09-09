@@ -4,8 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "ORDERS")
+@Table(name = "orders")
 public class Order {
+
     private Long id;
     private User user;
     private Room room;
@@ -25,36 +26,36 @@ public class Order {
     }
 
     @Id
-    @SequenceGenerator(name = "orderSeq", sequenceName = "ORDER_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "orderSeq", sequenceName = "order_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderSeq")
-    @Column(name = "ID")
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "USER_ID", nullable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     public User getUser() {
         return user;
     }
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "ROOM_ID", nullable = false, updatable = false)
+    @JoinColumn(name = "room_id", nullable = false, updatable = false)
     public Room getRoom() {
         return room;
     }
 
-    @Column(name = "DATE_FROM")
+    @Column(name = "date_from")
     public Date getDateFrom() {
         return dateFrom;
     }
 
-    @Column(name = "DATE_TO")
+    @Column(name = "date_to")
     public Date getDateTo() {
         return dateTo;
     }
 
-    @Column(name = "MONEY_PAID")
+    @Column(name = "money_paid")
     public Double getMoneyPaid() {
         return moneyPaid;
     }

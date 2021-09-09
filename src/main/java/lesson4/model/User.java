@@ -3,8 +3,9 @@ package lesson4.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class User {
+
     private Long id;
     private String userName;
     private String password;
@@ -21,29 +22,29 @@ public class User {
     }
 
     @Id
-    @SequenceGenerator(name = "userSeq", sequenceName = "USER_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "userSeq", sequenceName = "user_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeq")
-    @Column(name = "ID")
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
 
-    @Column(name = "USERNAME")
+    @Column(name = "username")
     public String getUserName() {
         return userName;
     }
 
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
 
-    @Column(name = "COUNTRY")
+    @Column(name = "country")
     public String getCountry() {
         return country;
     }
 
-    @Column(name = "USER_TYPE")
+    @Column(name = "user_type")
     public String getUserType() {
         return userType.toString();
     }

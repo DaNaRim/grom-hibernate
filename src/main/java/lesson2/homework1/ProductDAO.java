@@ -1,18 +1,21 @@
 package lesson2.homework1;
 
-import org.hibernate.*;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
 public class ProductDAO {
+
     private static SessionFactory sessionFactory;
 
     public static Product findById(long id) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            return session.createQuery("FROM Product WHERE id = :Id", Product.class)
-                    .setParameter("Id", id)
+            return session.createQuery("FROM product WHERE id = :id", Product.class)
+                    .setParameter("id", id)
                     .getSingleResult();
 
         } catch (HibernateException e) {
@@ -23,8 +26,8 @@ public class ProductDAO {
     public static List<Product> findByName(String name) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            return session.createQuery("FROM Product WHERE name = :Name", Product.class)
-                    .setParameter("Name", name)
+            return session.createQuery("FROM product WHERE name = :name", Product.class)
+                    .setParameter("mame", name)
                     .list();
 
         } catch (HibernateException e) {
@@ -35,8 +38,8 @@ public class ProductDAO {
     public static List<Product> findByContainedName(String name) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            return session.createQuery("FROM Product WHERE name LIKE :ContainedName", Product.class)
-                    .setParameter("ContainedName", "%" + name + "%")
+            return session.createQuery("FROM product WHERE name LIKE :containedName", Product.class)
+                    .setParameter("containedName", "%" + name + "%")
                     .list();
 
         } catch (HibernateException e) {
@@ -47,7 +50,7 @@ public class ProductDAO {
     public static List<Product> findByPrice(int price, int delta) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            return session.createQuery("FROM Product WHERE price BETWEEN :minValue AND :maxValue", Product.class)
+            return session.createQuery("FROM product WHERE price BETWEEN :minValue AND :maxValue", Product.class)
                     .setParameter("minValue", price - delta)
                     .setParameter("maxValue", price + delta)
                     .list();
@@ -60,10 +63,10 @@ public class ProductDAO {
     public static List<Product> findByNameSortedAsc(String name) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "FROM Product WHERE name LIKE :ContainedName ORDER BY name";
+            String sql = "FROM product WHERE name LIKE :containedname ORDER BY name";
 
             return session.createQuery(sql, Product.class)
-                    .setParameter("ContainedName", "%" + name + "%")
+                    .setParameter("containedname", "%" + name + "%")
                     .list();
 
         } catch (HibernateException e) {
@@ -74,10 +77,10 @@ public class ProductDAO {
     public static List<Product> findByNameSortedDesc(String name) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "FROM Product WHERE name LIKE :ContainedName ORDER BY name DESC";
+            String sql = "FROM product WHERE name LIKE :containedname ORDER BY name DESC";
 
             return session.createQuery(sql, Product.class)
-                    .setParameter("ContainedName", "%" + name + "%")
+                    .setParameter("containedname", "%" + name + "%")
                     .list();
 
         } catch (HibernateException e) {
@@ -88,7 +91,7 @@ public class ProductDAO {
     public static List<Product> findByPriceSortedDesc(int price, int delta) throws Exception {
         try (Session session = createSessionFactory().openSession()) {
 
-            String sql = "FROM Product WHERE price BETWEEN :minValue AND :maxValue ORDER BY price DESC";
+            String sql = "FROM product WHERE price BETWEEN :minValue AND :maxValue ORDER BY price DESC";
 
             return session.createQuery(sql, Product.class)
                     .setParameter("minValue", price - delta)

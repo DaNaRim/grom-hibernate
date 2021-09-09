@@ -8,6 +8,7 @@ import lesson3.model.Room;
 import java.util.Date;
 
 public class Demo {
+
     public static void main(String[] args) throws Exception {
         Hotel hotel = new Hotel("2", "Test", "Test", "Test");
         Room room = new Room(2, 202.00, 1, 1, new Date(), hotel);

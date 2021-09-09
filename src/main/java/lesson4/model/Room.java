@@ -4,11 +4,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "ROOM")
+@Table(name = "room")
 public class Room {
+
     private Long id;
     private Integer numberOfGuests;
-    private double price;
+    private Double price;
     private Boolean breakfastIncluded;
     private Boolean petsAllowed;
     private Date dateAvailableFrom;
@@ -17,7 +18,7 @@ public class Room {
     public Room() {
     }
 
-    public Room(Integer numberOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed,
+    public Room(Integer numberOfGuests, Double price, Boolean breakfastIncluded, Boolean petsAllowed,
                 Date dateAvailableFrom, Hotel hotel) {
         this.numberOfGuests = numberOfGuests;
         this.price = price;
@@ -28,24 +29,24 @@ public class Room {
     }
 
     @Id
-    @SequenceGenerator(name = "roomSeq", sequenceName = "ROOM_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "roomSeq", sequenceName = "room_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roomSeq")
-    @Column(name = "ID")
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
 
-    @Column(name = "NUMBER_OF_GUESTS")
+    @Column(name = "number_of_guests")
     public Integer getNumberOfGuests() {
         return numberOfGuests;
     }
 
-    @Column(name = "PRICE")
+    @Column(name = "price")
     public double getPrice() {
         return price;
     }
 
-    @Column(name = "BREAKFAST_INCLUDED")
+    @Column(name = "breakfast_included")
     public int getBreakfastIncluded() {
         return breakfastIncluded ? 1 : 0;
     }
@@ -55,7 +56,7 @@ public class Room {
         return breakfastIncluded;
     }
 
-    @Column(name = "PETS_ALLOWED")
+    @Column(name = "pets_allowed")
     public int getPetsAllowed() {
         return petsAllowed ? 1 : 0;
     }
@@ -65,13 +66,13 @@ public class Room {
         return petsAllowed;
     }
 
-    @Column(name = "DATE_AVAILABLE_FROM")
+    @Column(name = "date_available_from")
     public Date getDateAvailableFrom() {
         return dateAvailableFrom;
     }
 
     @ManyToOne
-    @JoinColumn(name = "HOTEL_ID", nullable = false)
+    @JoinColumn(name = "hotel_id", nullable = false)
     public Hotel getHotel() {
         return hotel;
     }

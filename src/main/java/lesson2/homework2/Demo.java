@@ -1,6 +1,7 @@
 package lesson2.homework2;
 
 public class Demo {
+
     public static void main(String[] args) throws Exception {
         System.out.println(ProductDAO.findById(1).toString());
         System.out.println(ProductDAO.findByName("AA").toString());

@@ -9,6 +9,7 @@ import lesson4.model.User;
 import lesson4.model.UserType;
 
 public class UserService {
+
     private static final UserDAO userDAO = new UserDAO(User.class);
     private static User loggedUser = null;
 
@@ -29,6 +30,7 @@ public class UserService {
 
     public void setUserType(Long id, UserType userType)
             throws NoAccessException, BadRequestException, InternalServerException {
+
         checkAccess();
         User user = userDAO.findById(id);
 
@@ -42,7 +44,9 @@ public class UserService {
     }
 
     public void checkLogIn() throws NotLogInException {
-        if (loggedUser == null) throw new NotLogInException("checkLogIn failed: user is not log in");
+        if (loggedUser == null) {
+            throw new NotLogInException("checkLogIn failed: user is not log in");
+        }
     }
 
     public void checkAccess() throws NoAccessException {
@@ -55,8 +59,8 @@ public class UserService {
     public void checkUserForOperation(Long id) throws NoAccessException {
         checkLogIn();
         if (!loggedUser.getId().equals(id)) {
-            throw new NoAccessException("checkUserForOperation failed: user cannot do this operation in the name of " +
-                    "another user");
+            throw new NoAccessException("checkUserForOperation failed: user cannot do this operation in the name of "
+                    + "another user");
         }
     }
 

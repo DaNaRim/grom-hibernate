@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class DAO<T> {
+
     private final Class<T> tClass;
 
     public DAO(Class<T> tClass) {

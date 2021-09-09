@@ -9,6 +9,7 @@ import lesson4.service.HotelService;
 import java.util.List;
 
 public class HotelController {
+
     private static final HotelService hotelService = new HotelService();
 
     public List<Hotel> findHotelByName(String name) throws BadRequestException, InternalServerException {

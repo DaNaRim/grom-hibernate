@@ -3,6 +3,7 @@ package lesson1;
 import org.hibernate.Session;
 
 public class Demo {
+
     public static void main(String[] args) throws Exception {
         Product product = new Product();
         product.setId(98);

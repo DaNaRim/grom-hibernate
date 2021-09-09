@@ -12,8 +12,8 @@ public class ProductRepository {
 
             session.getTransaction().commit();
         } catch (Exception e) {
-            throw new Exception("An error occurred while trying to save product " + product.getId() + " : " +
-                    e.getMessage());
+            throw new Exception("An error occurred while trying to save product " + product.getId() + " : "
+                    + e.getMessage());
         }
     }
 
@@ -27,8 +27,8 @@ public class ProductRepository {
 
             session.getTransaction().commit();
         } catch (Exception e) {
-            throw new Exception("An error occurred while trying to save product " + id + " : " +
-                    e.getMessage());
+            throw new Exception("An error occurred while trying to save product " + id + " : "
+                    + e.getMessage());
         }
     }
 
@@ -40,8 +40,8 @@ public class ProductRepository {
 
             session.getTransaction().commit();
         } catch (Exception e) {
-            throw new Exception("An error occurred while trying to update product " + product.getId() + " : " +
-                    e.getMessage());
+            throw new Exception("An error occurred while trying to update product " + product.getId() + " : "
+                    + e.getMessage());
         }
     }
 }
