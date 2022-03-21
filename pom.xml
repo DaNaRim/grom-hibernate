@@ -18,14 +18,14 @@
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
-            <version>21.3.0.0</version>
+            <version>21.5.0.0</version>
         </dependency>
 
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.9.Final</version>
+            <version>5.6.5.Final</version>
         </dependency>
 
     </dependencies>
