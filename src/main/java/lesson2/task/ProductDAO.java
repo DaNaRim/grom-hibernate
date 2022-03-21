@@ -26,7 +26,7 @@ public class ProductDAO {
 
             tr.commit();
         } catch (HibernateException e) {
-            System.err.println("Save product failed : " + e.getMessage());
+            System.err.println("Save product failed: " + e.getMessage());
         }
     }
 
@@ -40,7 +40,7 @@ public class ProductDAO {
 
             tr.commit();
         } catch (HibernateException e) {
-            System.err.println("Delete product failed : " + e.getMessage());
+            System.err.println("Delete product failed: " + e.getMessage());
         }
     }
 
@@ -54,7 +54,7 @@ public class ProductDAO {
 
             tr.commit();
         } catch (HibernateException e) {
-            System.err.println("Update product failed : " + e.getMessage());
+            System.err.println("Update product failed: " + e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class ProductDAO {
             }
             tr.commit();
         } catch (HibernateException e) {
-            System.err.println("Save products failed : " + e.getMessage());
+            System.err.println("Save products failed: " + e.getMessage());
         }
     }
 
@@ -84,7 +84,7 @@ public class ProductDAO {
             }
             tr.commit();
         } catch (HibernateException e) {
-            System.err.println("Delete products failed : " + e.getMessage());
+            System.err.println("Delete products failed: " + e.getMessage());
         }
     }
 
@@ -99,7 +99,7 @@ public class ProductDAO {
             }
             tr.commit();
         } catch (HibernateException e) {
-            System.err.println("Update products failed : " + e.getMessage());
+            System.err.println("Update products failed: " + e.getMessage());
         }
     }
 
