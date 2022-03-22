@@ -72,6 +72,8 @@ public class HotelService {
                 hotel.getCity().contains(", ") || hotel.getStreet().contains(", ")) {
             throw new BadRequestException("validateHotel failed: fields must not have ', '");
         }
-        hotelDAO.isHotelExist(hotel);
+        if (hotelDAO.isHotelExist(hotel)) {
+            throw new BadRequestException("validateHotel failed: the hotel is already exist");
+        }
     }
 }
