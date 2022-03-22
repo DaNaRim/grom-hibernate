@@ -18,7 +18,12 @@ public class Room {
     public Room() {
     }
 
-    public Room(int numberOfGuests, double price, int breakfastIncluded, int petsAllowed, Date dateAvailableFrom, Hotel hotel) {
+    public Room(int numberOfGuests,
+                double price,
+                int breakfastIncluded,
+                int petsAllowed,
+                Date dateAvailableFrom,
+                Hotel hotel) {
         this.numberOfGuests = numberOfGuests;
         this.price = price;
         this.breakfastIncluded = breakfastIncluded;

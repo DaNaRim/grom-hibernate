@@ -14,42 +14,42 @@ public class DAO<T> {
 
     public T save(T object) throws Exception {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
-            Transaction transaction = session.getTransaction();
-            transaction.begin();
+            Transaction tr = session.getTransaction();
+            tr.begin();
 
             session.save(object);
 
-            transaction.commit();
+            tr.commit();
             return object;
         } catch (HibernateException e) {
-            throw new Exception("Save failed" + e.getMessage());
+            throw new Exception("Save failed: " + e.getMessage());
         }
     }
 
     public void delete(long id) throws Exception {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
-            Transaction transaction = session.getTransaction();
-            transaction.begin();
+            Transaction tr = session.getTransaction();
+            tr.begin();
 
             session.delete(findById(id));
 
-            transaction.commit();
+            tr.commit();
         } catch (Exception e) {
-            throw new Exception("Delete failed" + e.getMessage());
+            throw new Exception("Delete failed: " + e.getMessage());
         }
     }
 
     public T update(T object) throws Exception {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
-            Transaction transaction = session.getTransaction();
-            transaction.begin();
+            Transaction tr = session.getTransaction();
+            tr.begin();
 
             session.update(object);
 
-            transaction.commit();
+            tr.commit();
             return object;
         } catch (HibernateException e) {
-            throw new Exception("Update failed" + e.getMessage());
+            throw new Exception("Update failed: " + e.getMessage());
         }
     }
 
@@ -59,7 +59,7 @@ public class DAO<T> {
             return session.get(this.tClass, id);
 
         } catch (HibernateException e) {
-            throw new Exception("FindById failed" + e.getMessage());
+            throw new Exception("FindById failed: " + e.getMessage());
         }
     }
 }

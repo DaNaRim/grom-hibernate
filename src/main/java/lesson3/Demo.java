@@ -10,24 +10,25 @@ import java.util.Date;
 public class Demo {
 
     public static void main(String[] args) throws Exception {
-        Hotel hotel = new Hotel("2", "Test", "Test", "Test");
-        Room room = new Room(2, 202.00, 1, 1, new Date(), hotel);
-
         HotelDAO hotelDAO = new HotelDAO();
         RoomDAO roomDAO = new RoomDAO();
 
+        Hotel hotel = new Hotel("2", "Test", "Test", "Test");
         hotelDAO.save(hotel);
-        roomDAO.save(room);
 
         hotel.setCity("Test2");
-        room.setNumberOfGuests(3);
         hotelDAO.update(hotel);
-        roomDAO.update(room);
 
         hotelDAO.findById(2);
-        roomDAO.findById(2);
-
-        roomDAO.delete(2);
         hotelDAO.delete(2);
+
+        Room room = new Room(2, 202.00, 1, 1, new Date(), hotel);
+        roomDAO.save(room);
+
+        room.setNumberOfGuests(3);
+        roomDAO.update(room);
+
+        roomDAO.findById(2);
+        roomDAO.delete(2);
     }
 }
