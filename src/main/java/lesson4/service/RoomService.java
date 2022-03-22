@@ -18,7 +18,7 @@ public class RoomService {
     private static final HotelDAO hotelDAO = new HotelDAO(Hotel.class);
     private static final UserService userService = new UserService();
 
-    public List<Room> findRooms(Filter filter) throws InternalServerException, BadRequestException {
+    public List<Room> findRooms(Filter filter) throws InternalServerException, BadRequestException, NotFoundException {
         validateFilter(filter);
         return roomDAO.findRooms(filter);
     }

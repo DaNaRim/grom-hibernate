@@ -14,7 +14,7 @@ public class RoomController {
 
     private static final RoomService roomService = new RoomService();
 
-    public List<Room> findRooms(Filter filter) throws BadRequestException, InternalServerException {
+    public List<Room> findRooms(Filter filter) throws BadRequestException, InternalServerException, NotFoundException {
         return roomService.findRooms(filter);
     }
 
