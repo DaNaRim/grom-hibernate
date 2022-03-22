@@ -3,6 +3,7 @@ package lesson4.controller;
 import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
 import lesson4.exception.NoAccessException;
+import lesson4.exception.NotFoundException;
 import lesson4.model.Filter;
 import lesson4.model.Room;
 import lesson4.service.RoomService;
@@ -17,11 +18,12 @@ public class RoomController {
         return roomService.findRooms(filter);
     }
 
-    public Room addRoom(Room room) throws NoAccessException, InternalServerException, BadRequestException {
+    public Room addRoom(Room room)
+            throws NoAccessException, InternalServerException, BadRequestException, NotFoundException {
         return roomService.addRoom(room);
     }
 
-    public void deleteRoom(long roomId) throws NoAccessException, InternalServerException, BadRequestException {
+    public void deleteRoom(long roomId) throws NoAccessException, InternalServerException, NotFoundException {
         roomService.deleteRoom(roomId);
     }
 }

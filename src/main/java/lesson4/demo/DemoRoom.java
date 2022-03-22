@@ -6,6 +6,7 @@ import lesson4.controller.UserController;
 import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
 import lesson4.exception.NoAccessException;
+import lesson4.exception.NotFoundException;
 import lesson4.model.Hotel;
 
 import java.text.ParseException;
@@ -18,7 +19,7 @@ public class DemoRoom {
 
 
     public static void main(String[] args)
-            throws BadRequestException, NoAccessException, InternalServerException, ParseException {
+            throws BadRequestException, NoAccessException, InternalServerException, NotFoundException {
 
 //        userController.login("TEST1", "SuperPassword2");
 

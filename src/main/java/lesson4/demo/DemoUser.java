@@ -4,6 +4,7 @@ import lesson4.controller.UserController;
 import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
 import lesson4.exception.NoAccessException;
+import lesson4.exception.NotFoundException;
 import lesson4.model.UserType;
 
 public class DemoUser {
@@ -11,7 +12,7 @@ public class DemoUser {
     private static final UserController userController = new UserController();
 
     public static void main(String[] args)
-            throws InternalServerException, NoAccessException, BadRequestException {
+            throws InternalServerException, NoAccessException, BadRequestException, NotFoundException {
 
 //        User user1 = new User("TEST1", "SuperPassword2", "Sweden");
 //

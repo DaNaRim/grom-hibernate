@@ -2,6 +2,7 @@ package lesson4.DAO;
 
 import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
+import lesson4.exception.NotFoundException;
 import lesson4.model.Order;
 import lesson4.model.Room;
 import org.hibernate.HibernateException;
@@ -45,7 +46,7 @@ public class OrderDAO extends DAO<Order> {
     }
 
     public void checkRoomForBusy(long roomId, Date dateFrom, Date dateTo)
-            throws InternalServerException, BadRequestException {
+            throws InternalServerException, BadRequestException, NotFoundException {
 
         List<Order> orders = null;
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {

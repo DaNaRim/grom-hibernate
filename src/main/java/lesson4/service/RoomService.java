@@ -5,6 +5,7 @@ import lesson4.DAO.RoomDAO;
 import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
 import lesson4.exception.NoAccessException;
+import lesson4.exception.NotFoundException;
 import lesson4.model.Filter;
 import lesson4.model.Hotel;
 import lesson4.model.Room;
@@ -22,13 +23,14 @@ public class RoomService {
         return roomDAO.findRooms(filter);
     }
 
-    public Room addRoom(Room room) throws InternalServerException, BadRequestException, NoAccessException {
+    public Room addRoom(Room room)
+            throws InternalServerException, BadRequestException, NoAccessException, NotFoundException {
         userService.checkAccess();
         validateRoom(room);
         return roomDAO.save(room);
     }
 
-    public void deleteRoom(long roomId) throws InternalServerException, NoAccessException, BadRequestException {
+    public void deleteRoom(long roomId) throws InternalServerException, NoAccessException, NotFoundException {
         userService.checkAccess();
         Room room = roomDAO.findById(roomId);
         roomDAO.delete(room);
@@ -47,7 +49,7 @@ public class RoomService {
         }
     }
 
-    private void validateRoom(Room room) throws InternalServerException, BadRequestException {
+    private void validateRoom(Room room) throws InternalServerException, BadRequestException, NotFoundException {
         if (room == null) {
             throw new BadRequestException("validateRoom failed: impossible to process null room");
         }

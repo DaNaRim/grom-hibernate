@@ -3,6 +3,7 @@ package lesson4.controller;
 import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
 import lesson4.exception.NoAccessException;
+import lesson4.exception.NotFoundException;
 import lesson4.model.Hotel;
 import lesson4.service.HotelService;
 
@@ -24,7 +25,7 @@ public class HotelController {
         return hotelService.addHotel(hotel);
     }
 
-    public void deleteHotel(long hotelId) throws InternalServerException, NoAccessException, BadRequestException {
+    public void deleteHotel(long hotelId) throws InternalServerException, NoAccessException, NotFoundException {
         hotelService.deleteHotel(hotelId);
     }
 }

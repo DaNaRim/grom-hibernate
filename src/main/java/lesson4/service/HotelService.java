@@ -4,6 +4,7 @@ import lesson4.DAO.HotelDAO;
 import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
 import lesson4.exception.NoAccessException;
+import lesson4.exception.NotFoundException;
 import lesson4.model.Hotel;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class HotelService {
         return hotelDAO.save(hotel);
     }
 
-    public void deleteHotel(long hotelId) throws NoAccessException, BadRequestException, InternalServerException {
+    public void deleteHotel(long hotelId) throws NoAccessException, InternalServerException, NotFoundException {
         userService.checkAccess();
         Hotel hotel = hotelDAO.findById(hotelId);
 

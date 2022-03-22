@@ -1,9 +1,6 @@
 package lesson4.controller;
 
-import lesson4.exception.BadRequestException;
-import lesson4.exception.InternalServerException;
-import lesson4.exception.NoAccessException;
-import lesson4.exception.NotLogInException;
+import lesson4.exception.*;
 import lesson4.model.User;
 import lesson4.model.UserType;
 import lesson4.service.UserService;
@@ -25,7 +22,7 @@ public class UserController {
     }
 
     public void setUserType(Long id, UserType userType)
-            throws InternalServerException, NoAccessException, BadRequestException {
+            throws InternalServerException, NoAccessException, BadRequestException, NotFoundException {
 
         userService.setUserType(id, userType);
     }

@@ -5,6 +5,7 @@ import lesson4.controller.UserController;
 import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
 import lesson4.exception.NoAccessException;
+import lesson4.exception.NotFoundException;
 
 import java.text.ParseException;
 
@@ -14,7 +15,7 @@ public class DemoOrder {
     private static final UserController userController = new UserController();
 
     public static void main(String[] args)
-            throws NoAccessException, InternalServerException, BadRequestException, ParseException {
+            throws NoAccessException, InternalServerException, BadRequestException, NotFoundException {
 
         userController.login("TEST1", "SuperPassword2");
 
