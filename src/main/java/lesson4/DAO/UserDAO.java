@@ -12,6 +12,7 @@ import java.util.List;
 public class UserDAO extends DAO<User> {
 
     private static final String QUERY_FIND_BY_USERNAME = "SELECT * FROM users WHERE username = :username";
+    private static final String QUERY_IS_USERNAME_UNIQUE = "SELECT 1 FROM users WHERE username = :username";
 
     public UserDAO(Class<User> userClass) {
         super(userClass);
@@ -40,19 +41,18 @@ public class UserDAO extends DAO<User> {
         }
     }
 
-    public void checkUsername(String userName) throws InternalServerException, BadRequestException {
+    public boolean isUsernameUnique(String username) throws InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            session.createNativeQuery(QUERY_FIND_BY_USERNAME, User.class)
-                    .setParameter("username", userName)
+            session.createNativeQuery(QUERY_IS_USERNAME_UNIQUE)
+                    .setParameter("username", username)
                     .getSingleResult();
 
-            throw new BadRequestException("checkUsername failed: username is already taken");
-
+            return false;
         } catch (NoResultException e) {
-            System.out.println("checkUsername: Object not found in database. Will be saved");
+            return true;
         } catch (HibernateException e) {
-            throw new InternalServerException("checkUsername failed: something went wrong: " + e.getMessage());
+            throw new InternalServerException("checkUsername failed: " + e.getMessage());
         }
     }
 }

@@ -78,9 +78,9 @@ public class UserService {
                 user.getUserName().equals("") || user.getPassword().equals("") || user.getCountry().equals("")) {
             throw new BadRequestException("validateUser failed: not all fields are filled");
         }
-
-        userDAO.checkUsername(user.getUserName());
-
+        if (!userDAO.isUsernameUnique(user.getUserName())) {
+            throw new BadRequestException("validateUser failed: username is already taken");
+        }
         if (user.getPassword().length() < 8) {
             throw new BadRequestException("validateUser failed: password must be at least 8 characters");
         }
