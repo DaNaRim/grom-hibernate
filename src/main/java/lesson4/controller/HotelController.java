@@ -13,11 +13,13 @@ public class HotelController {
 
     private static final HotelService hotelService = new HotelService();
 
-    public List<Hotel> findHotelByName(String name) throws BadRequestException, InternalServerException {
+    public List<Hotel> findHotelByName(String name)
+            throws BadRequestException, InternalServerException, NotFoundException {
         return hotelService.findHotelByName(name);
     }
 
-    public List<Hotel> findHotelByCity(String city) throws BadRequestException, InternalServerException {
+    public List<Hotel> findHotelByCity(String city)
+            throws BadRequestException, InternalServerException, NotFoundException {
         return hotelService.findHotelByCity(city);
     }
 

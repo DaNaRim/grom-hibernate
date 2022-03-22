@@ -14,12 +14,14 @@ public class HotelService {
     private static final HotelDAO hotelDAO = new HotelDAO(Hotel.class);
     private static final UserService userService = new UserService();
 
-    public List<Hotel> findHotelByName(String name) throws BadRequestException, InternalServerException {
+    public List<Hotel> findHotelByName(String name)
+            throws BadRequestException, InternalServerException, NotFoundException {
         validateName(name);
         return hotelDAO.findHotelByName(name);
     }
 
-    public List<Hotel> findHotelByCity(String city) throws BadRequestException, InternalServerException {
+    public List<Hotel> findHotelByCity(String city)
+            throws BadRequestException, InternalServerException, NotFoundException {
         validateCity(city);
         return hotelDAO.findHotelByCity(city);
     }

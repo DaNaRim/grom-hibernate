@@ -2,6 +2,7 @@ package lesson4.DAO;
 
 import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
+import lesson4.exception.NotFoundException;
 import lesson4.model.Hotel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -24,40 +25,39 @@ public class HotelDAO extends DAO<Hotel> {
         super(hotelClass);
     }
 
-    public List<Hotel> findHotelByName(String name) throws InternalServerException, BadRequestException {
+    public List<Hotel> findHotelByName(String name) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
             List<Hotel> hotels = session.createNativeQuery(QUERY_FIND_HOTEL_BY_NAME, Hotel.class)
                     .setParameter("name", name)
                     .list();
 
-            if (hotels.size() == 0) {
-                throw new BadRequestException("findHotelByName failed: there is no hotels with this parameters");
+            if (hotels.isEmpty()) {
+                throw new NotFoundException("findHotelByName failed: there is no hotels with this name");
             }
-
             return hotels;
         } catch (HibernateException e) {
-            throw new InternalServerException("findHotelByName failed: something went wrong: " + e.getMessage());
+            throw new InternalServerException("findHotelByName failed: " + e.getMessage());
         }
     }
 
-    public List<Hotel> findHotelByCity(String city) throws InternalServerException, BadRequestException {
+    public List<Hotel> findHotelByCity(String city) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
             List<Hotel> hotels = session.createNativeQuery(QUERY_FIND_HOTEL_BY_CITY, Hotel.class)
                     .setParameter("city", city)
                     .list();
 
-            if (hotels.size() == 0) {
-                throw new BadRequestException("findHotelByCity failed: there is no hotels with this parameters");
+            if (hotels.isEmpty()) {
+                throw new NotFoundException("findHotelByCity failed: there is no hotels in this city");
             }
-
             return hotels;
         } catch (HibernateException e) {
-            throw new InternalServerException("findHotelByCity failed: something went wrong: " + e.getMessage());
+            throw new InternalServerException("findHotelByCity failed: " + e.getMessage());
         }
     }
 
+    //FIXME
     public void isHotelExist(Hotel hotel) throws InternalServerException, BadRequestException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
@@ -68,7 +68,7 @@ public class HotelDAO extends DAO<Hotel> {
                     .setParameter("street", hotel.getStreet())
                     .getSingleResult();
 
-            throw new BadRequestException("isHotelExist failed: the hotel is already exist. Id - : " + hotel1.getId());
+            throw new BadRequestException("isHotelExist failed: the hotel is already exist. Id = " + hotel1.getId());
 
         } catch (NoResultException e) {
             System.out.println("isHotelExist: Object not found in database. Will be saved");
