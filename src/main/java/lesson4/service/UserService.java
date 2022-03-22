@@ -17,7 +17,7 @@ public class UserService {
 
     public void login(String userName, String password) throws InternalServerException, BadRequestException {
         validateLogin(userName);
-        loggedUser = userDAO.logIn(userName, password);
+        loggedUser = validateLoginAndGetUser(userName, password);
     }
 
     public void logout() throws NotLogInException {
@@ -68,6 +68,21 @@ public class UserService {
             }
             throw new BadRequestException("validateLogin failed: another user is logged in now");
         }
+    }
+
+    private User validateLoginAndGetUser(String username, String password)
+            throws BadRequestException, InternalServerException {
+
+        User user;
+        try {
+            user = userDAO.findByUsername(username);
+        } catch (NotFoundException e) {
+            throw new BadRequestException("validateAndGetUser failed: wrong username");
+        }
+        if (!user.getPassword().equals(password)) {
+            throw new BadRequestException("validateAndGetUser failed: wrong password");
+        }
+        return user;
     }
 
     private void validateUser(User user) throws BadRequestException, InternalServerException {

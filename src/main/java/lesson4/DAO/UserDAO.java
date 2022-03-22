@@ -1,13 +1,12 @@
 package lesson4.DAO;
 
-import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
+import lesson4.exception.NotFoundException;
 import lesson4.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import javax.persistence.NoResultException;
-import java.util.List;
 
 public class UserDAO extends DAO<User> {
 
@@ -18,26 +17,17 @@ public class UserDAO extends DAO<User> {
         super(userClass);
     }
 
-    public User logIn(String userName, String password) throws InternalServerException, BadRequestException {
+    public User findByUsername(String username) throws NotFoundException, InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            List<User> users = session.createNativeQuery(QUERY_FIND_BY_USERNAME, User.class)
-                    .setParameter("username", userName)
-                    .list();
+            return session.createNativeQuery(QUERY_FIND_BY_USERNAME, User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
 
-            if (users.size() == 0) {
-                throw new BadRequestException("logIn failed: wrong username or user not registered");
-            }
-
-            for (User user : users) {
-                if (user.getPassword().equals(password)) {
-                    return user;
-                }
-            }
-            throw new BadRequestException("logIn failed: wrong password");
-
+        } catch (NoResultException e) {
+            throw new NotFoundException("Missing user with username " + username);
         } catch (HibernateException e) {
-            throw new InternalServerException("logIn failed: something went wrong: " + e.getMessage());
+            throw new InternalServerException("findByUsername failed: " + e.getMessage());
         }
     }
 
@@ -52,7 +42,7 @@ public class UserDAO extends DAO<User> {
         } catch (NoResultException e) {
             return true;
         } catch (HibernateException e) {
-            throw new InternalServerException("checkUsername failed: " + e.getMessage());
+            throw new InternalServerException("isUsernameUnique failed: " + e.getMessage());
         }
     }
 }
