@@ -18,8 +18,12 @@ public class Room {
     public Room() {
     }
 
-    public Room(Integer numberOfGuests, Double price, Boolean breakfastIncluded, Boolean petsAllowed,
-                Date dateAvailableFrom, Hotel hotel) {
+    public Room(Integer numberOfGuests,
+                Double price,
+                Boolean breakfastIncluded,
+                Boolean petsAllowed,
+                Date dateAvailableFrom,
+                Hotel hotel) {
         this.numberOfGuests = numberOfGuests;
         this.price = price;
         this.breakfastIncluded = breakfastIncluded;

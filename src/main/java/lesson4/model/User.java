@@ -44,7 +44,7 @@ public class User {
         return country;
     }
 
-    @Column(name = "user_type")
+    @Column(name = "user_type") //TODO check enum
     public String getUserType() {
         return userType.toString();
     }
