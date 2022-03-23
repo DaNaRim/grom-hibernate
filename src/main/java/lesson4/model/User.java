@@ -10,7 +10,7 @@ public class User {
     private String userName;
     private String password;
     private String country;
-    private UserType userType = UserType.USER;
+    private UserType userType;
 
     public User() {
     }
@@ -48,13 +48,9 @@ public class User {
         return country;
     }
 
-    @Column(name = "user_type") //TODO check enum
-    public String getUserType() {
-        return userType.toString();
-    }
-
-    @Transient
-    public UserType getUserTypeEnum() {
+    @Column(name = "user_type")
+    @Enumerated(EnumType.STRING)
+    public UserType getUserType() {
         return userType;
     }
 
@@ -74,11 +70,7 @@ public class User {
         this.country = country;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType.equals("ADMIN") ? UserType.ADMIN : UserType.USER;
-    }
-
-    public void setUserTypeEnum(UserType userType) {
+    public void setUserType(UserType userType) {
         this.userType = userType;
     }
 }

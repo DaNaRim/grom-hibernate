@@ -12,6 +12,7 @@ public class UserService {
 
     public User registerUser(User user) throws InternalServerException, BadRequestException {
         validateUser(user);
+        user.setUserType(UserType.USER);
         return userDAO.save(user);
     }
 
@@ -43,16 +44,16 @@ public class UserService {
         if (userType == null) {
             throw new BadRequestException("Can`t set null type");
         }
-        if (user.getUserType().equals(userType.toString())) {
+        if (user.getUserType().equals(userType)) {
             throw new BadRequestException("User already has this type");
         }
-        user.setUserType(userType.toString());
+        user.setUserType(userType);
         userDAO.update(user);
     }
 
     public void checkForAdminPermissions() throws NoAccessException, NotLogInException {
         isSomeUserLogged();
-        if (!loggedUser.getUserType().equals(UserType.ADMIN.toString())) {
+        if (!loggedUser.getUserType().equals(UserType.ADMIN)) {
             throw new NoAccessException("User don`t have enough rights");
         }
     }
