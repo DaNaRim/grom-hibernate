@@ -17,12 +17,14 @@ public class HotelDAO extends DAO<Hotel> {
 
     private static final String QUERY_FIND_HOTEL_BY_NAME = "SELECT * FROM hotel WHERE name = :name";
     private static final String QUERY_FIND_HOTEL_BY_CITY = "SELECT * FROM hotel WHERE city = :city";
-    private static final String QUERY_IS_HOTEL_EXIST =
+    private static final String QUERY_IS_HOTEL_WITH_PARAMETERS_EXISTS =
             "SELECT 1 FROM hotel"
                     + " WHERE name = :name"
                     + "   AND country = :country"
                     + "   AND city = :city"
                     + "   AND street = :street";
+
+    private static final String QUERY_IS_HOTEL_EXISTS = "SELECT 1 FROM hotel WHERE id = :id";
 
     public List<Hotel> findHotelByName(String name) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
@@ -56,14 +58,29 @@ public class HotelDAO extends DAO<Hotel> {
         }
     }
 
-    public boolean isHotelExist(Hotel hotel) throws InternalServerException {
+    public boolean isHotelWithParametersExist(Hotel hotel) throws InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            session.createNativeQuery(QUERY_IS_HOTEL_EXIST)
+            session.createNativeQuery(QUERY_IS_HOTEL_WITH_PARAMETERS_EXISTS)
                     .setParameter("name", hotel.getName())
                     .setParameter("country", hotel.getCountry())
                     .setParameter("city", hotel.getCity())
                     .setParameter("street", hotel.getStreet())
+                    .getSingleResult();
+
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        } catch (HibernateException e) {
+            throw new InternalServerException("isHotelExist failed: " + e.getMessage());
+        }
+    }
+
+    public boolean isHotelExist(long hotelId) throws InternalServerException {
+        try (Session session = HibernateUtil.createSessionFactory().openSession()) {
+
+            session.createNativeQuery(QUERY_IS_HOTEL_EXISTS)
+                    .setParameter("id", hotelId)
                     .getSingleResult();
 
             return true;
