@@ -11,7 +11,9 @@ import lesson4.model.Order;
 import lesson4.model.Room;
 import lesson4.model.User;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class OrderService {
 
@@ -43,7 +45,7 @@ public class OrderService {
     }
 
     private void validateCancellation(long roomId, long userId)
-            throws InternalServerException, BadRequestException {
+            throws InternalServerException, BadRequestException, NotFoundException {
 
         Date orderDateFrom = orderDAO.findOrderByRoomAndUser(roomId, userId).getDateFrom();
 
@@ -61,7 +63,60 @@ public class OrderService {
         if (dateTo.before(dateFrom) || dateTo.equals(dateFrom) || dateFrom.before(new Date())) {
             throw new BadRequestException("validateOrder failed: date filled is incorrect");
         }
-        orderDAO.checkRoomForBusy(roomId, dateFrom, dateTo);
+        //FIXME
+        checkRoomForBusy(roomDAO.findById(roomId), dateFrom, dateTo);
+    }
+
+    private void checkRoomForBusy(Room room, Date dateFrom, Date dateTo)
+            throws InternalServerException, BadRequestException {
+
+//        updateRoomDateAvailableFrom(room);
+//
+//        if (room.getDateAvailableFrom().after(dateFrom)) {
+//            throw new BadRequestException("Room is busy until " + room.getDateAvailableFrom());
+//        }
+
+        List<Order> orders;
+        try {
+            orders = orderDAO.getActualOrdersByRoom(room.getId());
+        } catch (NotFoundException e) {
+            return;
+        }
+
+        for (Order order : orders) {
+            Date busyTimeFrom = order.getDateFrom();
+            Date busyTimeTo = order.getDateTo();
+
+            //isDatesCrossOrderRange
+            if (!(busyTimeTo.before(dateFrom) || busyTimeFrom.after(dateTo))) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy kk:00");
+
+                throw new BadRequestException(String.format(
+                        "checkRoomForBusy failed: the room is busy from %s to %s",
+                        sdf.format(busyTimeFrom), sdf.format(busyTimeTo)));
+            }
+        }
+    }
+
+    private void updateRoomDateAvailableFrom(Room room) throws InternalServerException {
+        List<Order> orders;
+        try {
+            orders = orderDAO.getActualOrdersByRoom(room.getId());
+        } catch (NotFoundException e) {
+            return;
+        }
+
+        Date dateAvailableFrom = room.getDateAvailableFrom();
+        for (Order order : orders) {
+
+            if (order.getDateTo().after(dateAvailableFrom)
+                    && order.getDateFrom().before(dateAvailableFrom)) {
+
+                room.setDateAvailableFrom(order.getDateTo());
+                break;
+            }
+        }
+        roomDAO.update(room);
     }
 
     private void validateRoomAndUser(long roomId, long userId) throws InternalServerException, NotFoundException {
