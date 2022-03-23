@@ -11,6 +11,10 @@ import java.util.List;
 
 public class HotelDAO extends DAO<Hotel> {
 
+    public HotelDAO() {
+        super(Hotel.class);
+    }
+
     private static final String QUERY_FIND_HOTEL_BY_NAME = "SELECT * FROM hotel WHERE name = :name";
     private static final String QUERY_FIND_HOTEL_BY_CITY = "SELECT * FROM hotel WHERE city = :city";
     private static final String QUERY_IS_HOTEL_EXIST =
@@ -19,10 +23,6 @@ public class HotelDAO extends DAO<Hotel> {
                     + "   AND country = :country"
                     + "   AND city = :city"
                     + "   AND street = :street";
-
-    public HotelDAO(Class<Hotel> hotelClass) {
-        super(hotelClass);
-    }
 
     public List<Hotel> findHotelByName(String name) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {

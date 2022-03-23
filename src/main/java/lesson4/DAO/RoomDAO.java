@@ -14,8 +14,8 @@ import java.util.List;
 
 public class RoomDAO extends DAO<Room> {
 
-    public RoomDAO(Class<Room> roomClass) {
-        super(roomClass);
+    public RoomDAO() {
+        super(Room.class);
     }
 
     public List<Room> findRooms(Filter filter) throws InternalServerException, NotFoundException {

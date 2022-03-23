@@ -10,12 +10,12 @@ import javax.persistence.NoResultException;
 
 public class UserDAO extends DAO<User> {
 
+    public UserDAO() {
+        super(User.class);
+    }
+
     private static final String QUERY_FIND_BY_USERNAME = "SELECT * FROM users WHERE username = :username";
     private static final String QUERY_IS_USERNAME_UNIQUE = "SELECT 1 FROM users WHERE username = :username";
-
-    public UserDAO(Class<User> userClass) {
-        super(userClass);
-    }
 
     public User findByUsername(String username) throws NotFoundException, InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {

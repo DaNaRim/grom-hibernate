@@ -11,6 +11,10 @@ import java.util.List;
 
 public class OrderDAO extends DAO<Order> {
 
+    public OrderDAO() {
+        super(Order.class);
+    }
+
     private static final String QUERY_FIND_ORDER_BY_ROOM_AND_USER =
             "SELECT * FROM orders"
                     + " WHERE room_id = :roomId"
@@ -20,10 +24,6 @@ public class OrderDAO extends DAO<Order> {
             "SELECT * FROM orders"
                     + " WHERE room_id = :roomId"
                     + "   AND date_to > CURRENT_DATE";
-
-    public OrderDAO(Class<Order> orderClass) {
-        super(orderClass);
-    }
 
     public Order findOrderByRoomAndUser(long roomId, long userId) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {

@@ -14,8 +14,8 @@ import java.util.List;
 
 public class RoomService {
 
-    private static final RoomDAO roomDAO = new RoomDAO(Room.class);
-    private static final HotelDAO hotelDAO = new HotelDAO(Hotel.class);
+    private static final RoomDAO roomDAO = new RoomDAO();
+    private static final HotelDAO hotelDAO = new HotelDAO();
     private static final UserService userService = new UserService();
 
     public List<Room> findRooms(Filter filter) throws InternalServerException, BadRequestException, NotFoundException {

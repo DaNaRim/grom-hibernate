@@ -11,7 +11,7 @@ import java.util.List;
 
 public class HotelService {
 
-    private static final HotelDAO hotelDAO = new HotelDAO(Hotel.class);
+    private static final HotelDAO hotelDAO = new HotelDAO();
     private static final UserService userService = new UserService();
 
     public List<Hotel> findHotelByName(String name)

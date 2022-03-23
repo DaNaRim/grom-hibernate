@@ -7,15 +7,12 @@ import lesson4.exception.BadRequestException;
 import lesson4.exception.InternalServerException;
 import lesson4.exception.NoAccessException;
 import lesson4.exception.NotFoundException;
-import lesson4.model.Hotel;
-
-import java.text.ParseException;
 
 public class DemoRoom {
 
     private static final RoomController roomController = new RoomController();
     private static final UserController userController = new UserController();
-    private static final HotelDAO hotelDAO = new HotelDAO(Hotel.class);
+    private static final HotelDAO hotelDAO = new HotelDAO();
 
 
     public static void main(String[] args)

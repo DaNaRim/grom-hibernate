@@ -17,9 +17,9 @@ import java.util.List;
 
 public class OrderService {
 
-    private static final OrderDAO orderDAO = new OrderDAO(Order.class);
-    private static final RoomDAO roomDAO = new RoomDAO(Room.class);
-    private static final UserDAO userDAO = new UserDAO(User.class);
+    private static final OrderDAO orderDAO = new OrderDAO();
+    private static final RoomDAO roomDAO = new RoomDAO();
+    private static final UserDAO userDAO = new UserDAO();
     private static final UserService userService = new UserService();
 
     public void bookRoom(long roomId, long userId, Date dateFrom, Date dateTo)

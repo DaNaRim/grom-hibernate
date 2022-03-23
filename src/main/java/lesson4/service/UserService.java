@@ -7,7 +7,7 @@ import lesson4.model.UserType;
 
 public class UserService {
 
-    private static final UserDAO userDAO = new UserDAO(User.class);
+    private static final UserDAO userDAO = new UserDAO();
     private static User loggedUser = null;
 
     public User registerUser(User user) throws InternalServerException, BadRequestException {
