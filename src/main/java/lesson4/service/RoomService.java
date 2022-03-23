@@ -32,7 +32,7 @@ public class RoomService {
 
         userService.checkForAdminPermissions();
 
-        if (!roomDAO.isExist(roomId)) {
+        if (!roomDAO.isExists(roomId)) {
             throw new BadRequestException("Missing room with id: " + roomId);
         }
         Room room = new Room();

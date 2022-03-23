@@ -4,6 +4,7 @@ import lesson4.exception.InternalServerException;
 import lesson4.exception.NotFoundException;
 import lesson4.model.Filter;
 import lesson4.model.Hotel;
+import lesson4.model.Order;
 import lesson4.model.Room;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -11,15 +12,18 @@ import org.hibernate.Session;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RoomDAO extends DAO<Room> {
+
+    private final OrderDAO orderDAO = new OrderDAO();
 
     public RoomDAO() {
         super(Room.class);
     }
 
-    private static final String QUERY_IS_ROOM_EXIST = "SELECT 1 FROM room WHERE id = :id";
+    private static final String QUERY_IS_ROOM_EXISTS = "SELECT 1 FROM room WHERE id = :id";
 
     public List<Room> findRooms(Filter filter) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
@@ -31,16 +35,20 @@ public class RoomDAO extends DAO<Room> {
             if (rooms.isEmpty()) {
                 throw new NotFoundException("Missing rooms with this filter parameters");
             }
+
+            for (Room room : rooms) {
+                updateRoomDateAvailableFrom(room);
+            }
             return rooms;
         } catch (HibernateException e) {
             throw new InternalServerException("findRooms failed: " + e.getMessage());
         }
     }
 
-    public boolean isExist(long roomId) throws InternalServerException {
+    public boolean isExists(long roomId) throws InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            session.createNativeQuery(QUERY_IS_ROOM_EXIST)
+            session.createNativeQuery(QUERY_IS_ROOM_EXISTS)
                     .setParameter("id", roomId)
                     .getSingleResult();
 
@@ -48,8 +56,29 @@ public class RoomDAO extends DAO<Room> {
         } catch (NoResultException e) {
             return false;
         } catch (HibernateException e) {
-            throw new InternalServerException("isExist failed: " + e.getMessage());
+            throw new InternalServerException("isExists failed: " + e.getMessage());
         }
+    }
+
+    private void updateRoomDateAvailableFrom(Room room) throws InternalServerException {
+        List<lesson4.model.Order> orders;
+        try {
+            orders = orderDAO.getActualOrdersByRoom(room.getId());
+        } catch (NotFoundException e) {
+            return;
+        }
+
+        Date dateAvailableFrom = room.getDateAvailableFrom();
+        for (Order order : orders) {
+
+            if (order.getDateTo().after(dateAvailableFrom)
+                    && order.getDateFrom().before(dateAvailableFrom)) {
+
+                room.setDateAvailableFrom(order.getDateTo());
+                break;
+            }
+        }
+        update(room);
     }
 
     private CriteriaQuery<Room> getRoomCriteriaQuery(Filter filter, Session session) {

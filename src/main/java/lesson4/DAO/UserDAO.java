@@ -16,6 +16,7 @@ public class UserDAO extends DAO<User> {
 
     private static final String QUERY_FIND_BY_USERNAME = "SELECT * FROM users WHERE username = :username";
     private static final String QUERY_IS_USERNAME_UNIQUE = "SELECT 1 FROM users WHERE username = :username";
+    private static final String QUERY_IS_USER_EXISTS = "SELECT 1 FROM user WHERE id = :id";
 
     public User findByUsername(String username) throws NotFoundException, InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
@@ -43,6 +44,21 @@ public class UserDAO extends DAO<User> {
             return true;
         } catch (HibernateException e) {
             throw new InternalServerException("isUsernameUnique failed: " + e.getMessage());
+        }
+    }
+
+    public boolean isExists(long roomId) throws InternalServerException {
+        try (Session session = HibernateUtil.createSessionFactory().openSession()) {
+
+            session.createNativeQuery(QUERY_IS_USER_EXISTS)
+                    .setParameter("id", roomId)
+                    .getSingleResult();
+
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        } catch (HibernateException e) {
+            throw new InternalServerException("isExists failed: " + e.getMessage());
         }
     }
 }

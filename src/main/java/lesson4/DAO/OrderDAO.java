@@ -20,6 +20,11 @@ public class OrderDAO extends DAO<Order> {
                     + " WHERE room_id = :roomId"
                     + "   AND user_id = :userId";
 
+    private static final String QUERY_GET_ID_BY_ROOM_AND_USER =
+            "SELECT id FROM orders"
+                    + " WHERE room_id = :roomId"
+                    + "   AND user_id = :userId";
+
     private static final String QUERY_GET_ACTUAL_ORDERS_BY_ROOM =
             "SELECT * FROM orders"
                     + " WHERE room_id = :roomId"
@@ -37,6 +42,19 @@ public class OrderDAO extends DAO<Order> {
             throw new NotFoundException("Missing order");
         } catch (HibernateException e) {
             throw new InternalServerException("findOrderByRoomAndUser failed: something went wrong: " + e.getMessage());
+        }
+    }
+
+    public long getIdByRoomAndUser(long roomId, long userId) throws InternalServerException {
+        try (Session session = HibernateUtil.createSessionFactory().openSession()) {
+
+            return session.createNativeQuery(QUERY_GET_ID_BY_ROOM_AND_USER)
+                    .setParameter("roomId", roomId)
+                    .setParameter("userId", userId)
+                    .getFirstResult();
+
+        } catch (HibernateException | NoResultException e) {
+            throw new InternalServerException("getIdByRoomAndUser failed: " + e.getMessage());
         }
     }
 
