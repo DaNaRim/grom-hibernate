@@ -16,7 +16,7 @@ public class UserDAO extends DAO<User> {
 
     private static final String QUERY_FIND_BY_USERNAME = "SELECT * FROM users WHERE username = :username";
     private static final String QUERY_IS_USERNAME_UNIQUE = "SELECT 1 FROM users WHERE username = :username";
-    private static final String QUERY_IS_USER_EXISTS = "SELECT 1 FROM user WHERE id = :id";
+    private static final String QUERY_IS_USER_EXISTS = "SELECT 1 FROM users WHERE id = :id";
 
     public User findByUsername(String username) throws NotFoundException, InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
