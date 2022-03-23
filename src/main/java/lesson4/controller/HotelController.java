@@ -1,9 +1,6 @@
 package lesson4.controller;
 
-import lesson4.exception.BadRequestException;
-import lesson4.exception.InternalServerException;
-import lesson4.exception.NoAccessException;
-import lesson4.exception.NotFoundException;
+import lesson4.exception.*;
 import lesson4.model.Hotel;
 import lesson4.service.HotelService;
 
@@ -23,11 +20,11 @@ public class HotelController {
         return hotelService.findHotelByCity(city);
     }
 
-    public Hotel addHotel(Hotel hotel) throws InternalServerException, NoAccessException, BadRequestException {
+    public Hotel addHotel(Hotel hotel) throws InternalServerException, NoAccessException, BadRequestException, NotLogInException {
         return hotelService.addHotel(hotel);
     }
 
-    public void deleteHotel(long hotelId) throws InternalServerException, NoAccessException, NotFoundException {
+    public void deleteHotel(long hotelId) throws InternalServerException, NoAccessException, NotFoundException, NotLogInException {
         hotelService.deleteHotel(hotelId);
     }
 }

@@ -3,13 +3,9 @@ package lesson4.service;
 import lesson4.DAO.OrderDAO;
 import lesson4.DAO.RoomDAO;
 import lesson4.DAO.UserDAO;
-import lesson4.exception.BadRequestException;
-import lesson4.exception.InternalServerException;
-import lesson4.exception.NoAccessException;
-import lesson4.exception.NotFoundException;
+import lesson4.exception.*;
 import lesson4.model.Order;
 import lesson4.model.Room;
-import lesson4.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,10 +19,11 @@ public class OrderService {
     private static final UserService userService = new UserService();
 
     public void bookRoom(long roomId, long userId, Date dateFrom, Date dateTo)
-            throws InternalServerException, NoAccessException, BadRequestException, NotFoundException {
+            throws InternalServerException, NoAccessException, BadRequestException, NotFoundException,
+            NotLogInException {
 
         validateRoomAndUser(roomId, userId);
-        userService.checkUserForOperation(userId);
+        userService.isLoggedUser(userId);
         validateOrder(roomId, dateFrom, dateTo);
 
         Order order = createOrder(roomId, userId, dateFrom, dateTo);
@@ -34,10 +31,11 @@ public class OrderService {
     }
 
     public void cancelReservation(long roomId, long userId)
-            throws InternalServerException, NoAccessException, BadRequestException, NotFoundException {
+            throws InternalServerException, NoAccessException, BadRequestException, NotFoundException,
+            NotLogInException {
 
         validateRoomAndUser(roomId, userId);
-        userService.checkUserForOperation(userId);
+        userService.isLoggedUser(userId);
         validateCancellation(roomId, userId);
 
         Order order = orderDAO.findOrderByRoomAndUser(roomId, userId);

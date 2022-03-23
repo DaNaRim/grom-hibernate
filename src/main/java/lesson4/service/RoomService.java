@@ -2,10 +2,7 @@ package lesson4.service;
 
 import lesson4.DAO.HotelDAO;
 import lesson4.DAO.RoomDAO;
-import lesson4.exception.BadRequestException;
-import lesson4.exception.InternalServerException;
-import lesson4.exception.NoAccessException;
-import lesson4.exception.NotFoundException;
+import lesson4.exception.*;
 import lesson4.model.Filter;
 import lesson4.model.Hotel;
 import lesson4.model.Room;
@@ -24,14 +21,16 @@ public class RoomService {
     }
 
     public Room addRoom(Room room)
-            throws InternalServerException, BadRequestException, NoAccessException, NotFoundException {
-        userService.checkAccess();
+            throws InternalServerException, BadRequestException, NoAccessException, NotFoundException,
+            NotLogInException {
+        userService.checkForAdminPermissions();
         validateRoom(room);
         return roomDAO.save(room);
     }
 
-    public void deleteRoom(long roomId) throws InternalServerException, NoAccessException, NotFoundException {
-        userService.checkAccess();
+    public void deleteRoom(long roomId) throws InternalServerException, NoAccessException, NotFoundException,
+            NotLogInException {
+        userService.checkForAdminPermissions();
         Room room = roomDAO.findById(roomId);
         roomDAO.delete(room);
     }

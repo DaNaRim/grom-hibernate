@@ -1,10 +1,7 @@
 package lesson4.service;
 
 import lesson4.DAO.HotelDAO;
-import lesson4.exception.BadRequestException;
-import lesson4.exception.InternalServerException;
-import lesson4.exception.NoAccessException;
-import lesson4.exception.NotFoundException;
+import lesson4.exception.*;
 import lesson4.model.Hotel;
 
 import java.util.List;
@@ -26,15 +23,17 @@ public class HotelService {
         return hotelDAO.findHotelByCity(city);
     }
 
-    public Hotel addHotel(Hotel hotel) throws NoAccessException, BadRequestException, InternalServerException {
-        userService.checkAccess();
+    public Hotel addHotel(Hotel hotel) throws NoAccessException, BadRequestException, InternalServerException,
+            NotLogInException {
+        userService.checkForAdminPermissions();
         validateHotel(hotel);
 
         return hotelDAO.save(hotel);
     }
 
-    public void deleteHotel(long hotelId) throws NoAccessException, InternalServerException, NotFoundException {
-        userService.checkAccess();
+    public void deleteHotel(long hotelId) throws NoAccessException, InternalServerException, NotFoundException,
+            NotLogInException {
+        userService.checkForAdminPermissions();
         Hotel hotel = hotelDAO.findById(hotelId);
 
         hotelDAO.delete(hotel);

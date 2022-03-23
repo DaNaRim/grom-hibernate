@@ -3,10 +3,7 @@ package lesson4.demo;
 import lesson4.DAO.HotelDAO;
 import lesson4.controller.RoomController;
 import lesson4.controller.UserController;
-import lesson4.exception.BadRequestException;
-import lesson4.exception.InternalServerException;
-import lesson4.exception.NoAccessException;
-import lesson4.exception.NotFoundException;
+import lesson4.exception.*;
 
 public class DemoRoom {
 
@@ -16,7 +13,7 @@ public class DemoRoom {
 
 
     public static void main(String[] args)
-            throws BadRequestException, NoAccessException, InternalServerException, NotFoundException {
+            throws BadRequestException, NoAccessException, InternalServerException, NotFoundException, NotLogInException {
 
 //        userController.login("TEST1", "SuperPassword2");
 
