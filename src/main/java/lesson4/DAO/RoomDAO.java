@@ -8,6 +8,7 @@ import lesson4.model.Room;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ public class RoomDAO extends DAO<Room> {
     public RoomDAO() {
         super(Room.class);
     }
+
+    private static final String QUERY_IS_ROOM_EXIST = "SELECT 1 FROM room WHERE id = :id";
 
     public List<Room> findRooms(Filter filter) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
@@ -31,6 +34,21 @@ public class RoomDAO extends DAO<Room> {
             return rooms;
         } catch (HibernateException e) {
             throw new InternalServerException("findRooms failed: " + e.getMessage());
+        }
+    }
+
+    public boolean isExist(long roomId) throws InternalServerException {
+        try (Session session = HibernateUtil.createSessionFactory().openSession()) {
+
+            session.createNativeQuery(QUERY_IS_ROOM_EXIST)
+                    .setParameter("id", roomId)
+                    .getSingleResult();
+
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        } catch (HibernateException e) {
+            throw new InternalServerException("isExist failed: " + e.getMessage());
         }
     }
 

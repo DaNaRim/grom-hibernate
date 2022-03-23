@@ -17,14 +17,14 @@ public class HotelDAO extends DAO<Hotel> {
 
     private static final String QUERY_FIND_HOTEL_BY_NAME = "SELECT * FROM hotel WHERE name = :name";
     private static final String QUERY_FIND_HOTEL_BY_CITY = "SELECT * FROM hotel WHERE city = :city";
-    private static final String QUERY_IS_HOTEL_WITH_PARAMETERS_EXISTS =
+    private static final String QUERY_IS_HOTEL_WITH_PARAMETERS_EXIST =
             "SELECT 1 FROM hotel"
                     + " WHERE name = :name"
                     + "   AND country = :country"
                     + "   AND city = :city"
                     + "   AND street = :street";
 
-    private static final String QUERY_IS_HOTEL_EXISTS = "SELECT 1 FROM hotel WHERE id = :id";
+    private static final String QUERY_IS_HOTEL_EXIST = "SELECT 1 FROM hotel WHERE id = :id";
 
     public List<Hotel> findHotelByName(String name) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
@@ -61,7 +61,7 @@ public class HotelDAO extends DAO<Hotel> {
     public boolean isHotelWithParametersExist(Hotel hotel) throws InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            session.createNativeQuery(QUERY_IS_HOTEL_WITH_PARAMETERS_EXISTS)
+            session.createNativeQuery(QUERY_IS_HOTEL_WITH_PARAMETERS_EXIST)
                     .setParameter("name", hotel.getName())
                     .setParameter("country", hotel.getCountry())
                     .setParameter("city", hotel.getCity())
@@ -72,14 +72,14 @@ public class HotelDAO extends DAO<Hotel> {
         } catch (NoResultException e) {
             return false;
         } catch (HibernateException e) {
-            throw new InternalServerException("isHotelExist failed: " + e.getMessage());
+            throw new InternalServerException("isHotelWithParametersExist failed: " + e.getMessage());
         }
     }
 
-    public boolean isHotelExist(long hotelId) throws InternalServerException {
+    public boolean isExist(long hotelId) throws InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            session.createNativeQuery(QUERY_IS_HOTEL_EXISTS)
+            session.createNativeQuery(QUERY_IS_HOTEL_EXIST)
                     .setParameter("id", hotelId)
                     .getSingleResult();
 
@@ -87,7 +87,7 @@ public class HotelDAO extends DAO<Hotel> {
         } catch (NoResultException e) {
             return false;
         } catch (HibernateException e) {
-            throw new InternalServerException("isHotelExist failed: " + e.getMessage());
+            throw new InternalServerException("isExist failed: " + e.getMessage());
         }
     }
 }

@@ -43,7 +43,7 @@ public class HotelService {
 
         userService.checkForAdminPermissions();
 
-        if (!hotelDAO.isHotelExist(hotelId)) {
+        if (!hotelDAO.isExist(hotelId)) {
             throw new BadRequestException("Missing hotel with id: " + hotelId);
         }
         Hotel hotel = new Hotel(); //TODO test delete rooms

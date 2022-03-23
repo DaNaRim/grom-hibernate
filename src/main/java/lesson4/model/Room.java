@@ -46,12 +46,12 @@ public class Room {
     }
 
     @Column(name = "price")
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
     @Column(name = "breakfast_included")
-    public int getBreakfastIncluded() {
+    public Integer getBreakfastIncluded() {
         return breakfastIncluded ? 1 : 0;
     }
 
@@ -61,7 +61,7 @@ public class Room {
     }
 
     @Column(name = "pets_allowed")
-    public int getPetsAllowed() {
+    public Integer getPetsAllowed() {
         return petsAllowed ? 1 : 0;
     }
 
