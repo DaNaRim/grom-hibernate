@@ -18,6 +18,10 @@ public class Room {
     public Room() {
     }
 
+    public Room(Long id) {
+        this.id = id;
+    }
+
     public Room(Integer numberOfGuests,
                 Double price,
                 Boolean breakfastIncluded,

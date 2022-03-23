@@ -20,7 +20,7 @@ public class DAO<T> {
             T object = session.get(this.tClass, id);
 
             if (object == null) {
-                throw new NotFoundException("findById failed: missing object with id: " + id);
+                throw new NotFoundException("There is no object with id: " + id);
             }
             return object;
         } catch (HibernateException e) {

@@ -34,7 +34,7 @@ public class HotelDAO extends DAO<Hotel> {
                     .list();
 
             if (hotels.isEmpty()) {
-                throw new NotFoundException("findHotelByName failed: there is no hotels with this name");
+                throw new NotFoundException("There are no hotels with name " + name);
             }
             return hotels;
         } catch (HibernateException e) {
@@ -50,7 +50,7 @@ public class HotelDAO extends DAO<Hotel> {
                     .list();
 
             if (hotels.isEmpty()) {
-                throw new NotFoundException("findHotelByCity failed: there is no hotels in this city");
+                throw new NotFoundException("There are no hotels in city " + city);
             }
             return hotels;
         } catch (HibernateException e) {
@@ -58,7 +58,7 @@ public class HotelDAO extends DAO<Hotel> {
         }
     }
 
-    public boolean isHotelWithParametersExist(Hotel hotel) throws InternalServerException {
+    public boolean isHotelWithParametersExists(Hotel hotel) throws InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
             session.createNativeQuery(QUERY_IS_HOTEL_WITH_PARAMETERS_EXIST)
@@ -72,7 +72,7 @@ public class HotelDAO extends DAO<Hotel> {
         } catch (NoResultException e) {
             return false;
         } catch (HibernateException e) {
-            throw new InternalServerException("isHotelWithParametersExist failed: " + e.getMessage());
+            throw new InternalServerException("isHotelWithParametersExists failed: " + e.getMessage());
         }
     }
 

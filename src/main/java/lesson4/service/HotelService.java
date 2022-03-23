@@ -46,9 +46,7 @@ public class HotelService {
         if (!hotelDAO.isExist(hotelId)) {
             throw new BadRequestException("Missing hotel with id: " + hotelId);
         }
-        Hotel hotel = new Hotel(); //TODO test delete rooms
-        hotel.setId(hotelId);
-        hotelDAO.delete(hotel);
+        hotelDAO.delete(new Hotel(hotelId));
     }
 
     private void validateHotel(Hotel hotel) throws BadRequestException, InternalServerException {
@@ -77,7 +75,7 @@ public class HotelService {
                 || hotel.getStreet().length() > 50) {
             throw new BadRequestException("Fields size is too long");
         }
-        if (hotelDAO.isHotelWithParametersExist(hotel)) {
+        if (hotelDAO.isHotelWithParametersExists(hotel)) {
             throw new BadRequestException("The hotel with this parameters already exist");
         }
     }

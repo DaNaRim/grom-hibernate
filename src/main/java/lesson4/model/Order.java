@@ -17,6 +17,10 @@ public class Order {
     public Order() {
     }
 
+    public Order(Long id) {
+        this.id = id;
+    }
+
     public Order(User user, Room room, Date dateFrom, Date dateTo, Double moneyPaid) {
         this.user = user;
         this.room = room;

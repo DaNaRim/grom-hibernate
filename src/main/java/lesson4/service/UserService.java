@@ -30,12 +30,16 @@ public class UserService {
     }
 
     public void setUserType(long id, UserType userType)
-            throws NoAccessException, BadRequestException, InternalServerException, NotFoundException,
-            NotLogInException {
+            throws NoAccessException, BadRequestException, InternalServerException, NotLogInException {
 
         checkForAdminPermissions();
-        User user = userDAO.findById(id);
 
+        User user;
+        try {
+            user = userDAO.findById(id);
+        } catch (NotFoundException e) {
+            throw new BadRequestException("Missing user with id " + id);
+        }
         if (userType == null) {
             throw new BadRequestException("Can`t set null type");
         }

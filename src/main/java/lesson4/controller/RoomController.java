@@ -17,11 +17,13 @@ public class RoomController {
 
     public Room addRoom(Room room)
             throws NoAccessException, InternalServerException, BadRequestException, NotLogInException {
+
         return roomService.addRoom(room);
     }
 
     public void deleteRoom(long roomId)
             throws NoAccessException, InternalServerException, NotLogInException, BadRequestException {
+
         roomService.deleteRoom(roomId);
     }
 }

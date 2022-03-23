@@ -6,6 +6,7 @@ import lesson4.DAO.UserDAO;
 import lesson4.exception.*;
 import lesson4.model.Order;
 import lesson4.model.Room;
+import lesson4.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,32 +20,28 @@ public class OrderService {
     private static final UserDAO userDAO = new UserDAO();
 
     public void bookRoom(long roomId, long userId, Date dateFrom, Date dateTo)
-            throws InternalServerException, NoAccessException, BadRequestException, NotFoundException,
-            NotLogInException {
+            throws InternalServerException, NoAccessException, BadRequestException, NotLogInException {
 
         userService.isLoggedUser(userId);
         validateRoomAndUser(roomId, userId);
         validateBookRoom(roomId, dateFrom, dateTo);
 
         orderDAO.save(new Order(
-                userDAO.findById(userId), //TODO check and simplify
-                roomDAO.findById(roomId),
+                new User(userId),
+                new Room(roomId),
                 dateFrom,
                 dateTo,
-                roomDAO.findById(roomId).getPrice())); //TODO check and simplify
+                roomDAO.getPriceById(roomId)));
     }
 
     public void cancelReservation(long roomId, long userId)
-            throws InternalServerException, NoAccessException, BadRequestException, NotFoundException,
-            NotLogInException {
+            throws InternalServerException, NoAccessException, BadRequestException, NotLogInException {
 
         validateRoomAndUser(roomId, userId);
         userService.isLoggedUser(userId);
         validateCancellation(roomId, userId);
 
-        Order order = new Order();
-        order.setId(orderDAO.getIdByRoomAndUser(roomId, userId));
-        orderDAO.delete(order);
+        orderDAO.delete(new Order(orderDAO.getIdByRoomAndUser(roomId, userId)));
     }
 
     private void validateRoomAndUser(long roomId, long userId) throws InternalServerException, BadRequestException {
@@ -57,7 +54,7 @@ public class OrderService {
     }
 
     private void validateBookRoom(long roomId, Date dateFrom, Date dateTo)
-            throws InternalServerException, BadRequestException, NotFoundException {
+            throws InternalServerException, BadRequestException {
 
         if (dateFrom == null || dateTo == null) {
             throw new BadRequestException("Not all fields are filled correctly");
@@ -65,15 +62,15 @@ public class OrderService {
         if (dateTo.before(dateFrom) || dateTo.equals(dateFrom) || dateFrom.before(new Date())) {
             throw new BadRequestException("Dates filled is incorrect");
         }
-        checkRoomForBusy(roomDAO.findById(roomId), dateFrom, dateTo);
+        checkRoomForBusy(roomId, dateFrom, dateTo);
     }
 
-    private void checkRoomForBusy(Room room, Date dateFrom, Date dateTo)
+    private void checkRoomForBusy(long roomId, Date dateFrom, Date dateTo)
             throws InternalServerException, BadRequestException {
 
         List<Order> orders;
         try {
-            orders = orderDAO.getActualOrdersByRoom(room.getId());
+            orders = orderDAO.getActualOrdersByRoom(roomId);
         } catch (NotFoundException e) {
             return;
         }
@@ -87,19 +84,21 @@ public class OrderService {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy kk:00");
 
                 throw new BadRequestException(String.format(
-                        "checkRoomForBusy failed: the room is busy from %s to %s",
+                        "The room is busy from %s to %s",
                         sdf.format(busyTimeFrom), sdf.format(busyTimeTo)));
             }
         }
     }
 
-    private void validateCancellation(long roomId, long userId)
-            throws InternalServerException, BadRequestException, NotFoundException {
-
-        Date orderDateFrom = orderDAO.findOrderByRoomAndUser(roomId, userId).getDateFrom();
-
+    private void validateCancellation(long roomId, long userId) throws InternalServerException, BadRequestException {
+        Date orderDateFrom;
+        try {
+            orderDateFrom = orderDAO.findOrderByRoomAndUser(roomId, userId).getDateFrom();
+        } catch (NotFoundException e) {
+            throw new BadRequestException("Missing order");
+        }
         if (orderDateFrom.before(new Date())) {
-            throw new BadRequestException("validateCancellation failed: possible cancellation has expired");
+            throw new BadRequestException("Possible cancellation has expired");
         }
     }
 }

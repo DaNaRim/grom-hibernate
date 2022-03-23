@@ -26,7 +26,7 @@ public class UserDAO extends DAO<User> {
                     .getSingleResult();
 
         } catch (NoResultException e) {
-            throw new NotFoundException("Missing user with username " + username);
+            throw new NotFoundException("There is no user with username " + username);
         } catch (HibernateException e) {
             throw new InternalServerException("findByUsername failed: " + e.getMessage());
         }

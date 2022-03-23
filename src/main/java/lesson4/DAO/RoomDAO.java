@@ -24,6 +24,7 @@ public class RoomDAO extends DAO<Room> {
     }
 
     private static final String QUERY_IS_ROOM_EXISTS = "SELECT 1 FROM room WHERE id = :id";
+    private static final String QUERY_GET_PRICE_BY_ID = "SELECT price FROM room WHERE id = :id";
 
     public List<Room> findRooms(Filter filter) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
@@ -33,7 +34,7 @@ public class RoomDAO extends DAO<Room> {
             List<Room> rooms = session.createQuery(criteria).getResultList();
 
             if (rooms.isEmpty()) {
-                throw new NotFoundException("Missing rooms with this filter parameters");
+                throw new NotFoundException("There are no rooms with this filter parameters");
             }
 
             for (Room room : rooms) {
@@ -57,6 +58,17 @@ public class RoomDAO extends DAO<Room> {
             return false;
         } catch (HibernateException e) {
             throw new InternalServerException("isExists failed: " + e.getMessage());
+        }
+    }
+
+    public double getPriceById(long id) throws InternalServerException {
+        try (Session session = HibernateUtil.createSessionFactory().openSession()) {
+
+            return (double) session.createNativeQuery(QUERY_GET_PRICE_BY_ID)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        }  catch (HibernateException | NoResultException e) {
+            throw new InternalServerException("getPriceById failed: " + e.getMessage());
         }
     }
 

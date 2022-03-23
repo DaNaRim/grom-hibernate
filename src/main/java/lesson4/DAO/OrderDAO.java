@@ -39,9 +39,9 @@ public class OrderDAO extends DAO<Order> {
                     .getSingleResult();
 
         } catch (NoResultException e) {
-            throw new NotFoundException("Missing order");
+            throw new NotFoundException("There is no order with user " + userId + " and room " + roomId);
         } catch (HibernateException e) {
-            throw new InternalServerException("findOrderByRoomAndUser failed: something went wrong: " + e.getMessage());
+            throw new InternalServerException("findOrderByRoomAndUser failed: " + e.getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ public class OrderDAO extends DAO<Order> {
                     .list();
 
             if (orders.isEmpty()) {
-                throw new NotFoundException("Missing actual orders with this room");
+                throw new NotFoundException("There are no actual orders with room " + roomId);
             }
             return orders;
         } catch (HibernateException e) {

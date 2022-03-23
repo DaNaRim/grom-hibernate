@@ -15,6 +15,10 @@ public class Hotel {
     public Hotel() {
     }
 
+    public Hotel(Long id) {
+        this.id = id;
+    }
+
     public Hotel(String name, String country, String city, String street) {
         this.name = name;
         this.country = country;
