@@ -10,12 +10,19 @@
         </property>
         <property name="hibernate.connection.username">main</property>
         <property name="hibernate.connection.password">PyP2p02rIZ9uyMBpTBwW</property>
-        <!--<mapping class="Product"/>-->
-        <!--<mapping class="hibernate.lesson2.Product"/>-->
-        <!--<mapping class="Product"/>-->
-        <!--<mapping class="Product"/>-->
-        <!--<mapping class="Hotel"/>-->
-        <!--<mapping class="Room"/>-->
+        <property name="show_sql">true</property>
+
+<!--        <mapping class="lesson1.Product"/>-->
+
+<!--        <mapping class="lesson2.task.Product"/>-->
+
+<!--        <mapping class="lesson2.homework1.Product"/>-->
+
+<!--        <mapping class="lesson2.homework2.Product"/>-->
+
+<!--        <mapping class="lesson3.model.Hotel"/>-->
+<!--        <mapping class="lesson3.model.Room"/>-->
+
         <mapping class="lesson4.model.Hotel"/>
         <mapping class="lesson4.model.Order"/>
         <mapping class="lesson4.model.Room"/>
