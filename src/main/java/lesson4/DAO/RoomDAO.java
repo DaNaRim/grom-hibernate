@@ -11,6 +11,7 @@ import org.hibernate.Session;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,7 @@ public class RoomDAO extends DAO<Room> {
 
     private static final String QUERY_IS_ROOM_EXISTS = "SELECT 1 FROM room WHERE id = :id";
     private static final String QUERY_GET_PRICE_BY_ID = "SELECT price FROM room WHERE id = :id";
+    private static final String QUERY_HAS_ROOMS_BY_HOTEL = "SELECT 1 FROM room WHERE hotel_id = :id";
 
     public List<Room> findRooms(Filter filter) throws InternalServerException, NotFoundException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
@@ -64,11 +66,28 @@ public class RoomDAO extends DAO<Room> {
     public double getPriceById(long id) throws InternalServerException {
         try (Session session = HibernateUtil.createSessionFactory().openSession()) {
 
-            return (double) session.createNativeQuery(QUERY_GET_PRICE_BY_ID)
+            BigDecimal price = (BigDecimal) session.createNativeQuery(QUERY_GET_PRICE_BY_ID)
                     .setParameter("id", id)
                     .getSingleResult();
-        }  catch (HibernateException | NoResultException e) {
+
+            return price.doubleValue();
+        } catch (HibernateException | NoResultException e) {
             throw new InternalServerException("getPriceById failed: " + e.getMessage());
+        }
+    }
+
+    public boolean hasRoomsByHotel(long hotelId) throws InternalServerException {
+        try (Session session = HibernateUtil.createSessionFactory().openSession()) {
+
+            session.createNativeQuery(QUERY_HAS_ROOMS_BY_HOTEL)
+                    .setParameter("id", hotelId)
+                    .getSingleResult();
+
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        } catch (HibernateException e) {
+            throw new InternalServerException("hasRoomsByHotel failed: " + e.getMessage());
         }
     }
 

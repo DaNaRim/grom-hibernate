@@ -1,6 +1,7 @@
 package lesson4.service;
 
 import lesson4.DAO.HotelDAO;
+import lesson4.DAO.RoomDAO;
 import lesson4.exception.*;
 import lesson4.model.Hotel;
 
@@ -10,6 +11,7 @@ public class HotelService {
 
     private static final UserService userService = new UserService();
     private static final HotelDAO hotelDAO = new HotelDAO();
+    private static final RoomDAO roomDAO = new RoomDAO();
 
     public List<Hotel> findHotelByName(String name)
             throws BadRequestException, InternalServerException, NotFoundException {
@@ -45,6 +47,9 @@ public class HotelService {
 
         if (!hotelDAO.isExist(hotelId)) {
             throw new BadRequestException("Missing hotel with id: " + hotelId);
+        }
+        if (roomDAO.hasRoomsByHotel(hotelId)) {
+            throw new BadRequestException("Hotel has rooms. First delete it");
         }
         hotelDAO.delete(new Hotel(hotelId));
     }

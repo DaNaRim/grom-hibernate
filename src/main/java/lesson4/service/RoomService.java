@@ -32,11 +32,12 @@ public class RoomService {
 
         userService.checkForAdminPermissions();
 
-        if (!roomDAO.isExists(roomId)) {
+        Room room;
+        try {
+            room = roomDAO.findById(roomId);
+        } catch (NotFoundException e) {
             throw new BadRequestException("Missing room with id: " + roomId);
         }
-        Room room = new Room();
-        room.setId(roomId);
         roomDAO.delete(room);
     }
 

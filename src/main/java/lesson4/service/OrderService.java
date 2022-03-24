@@ -37,11 +37,11 @@ public class OrderService {
     public void cancelReservation(long roomId, long userId)
             throws InternalServerException, NoAccessException, BadRequestException, NotLogInException {
 
-        validateRoomAndUser(roomId, userId);
         userService.isLoggedUser(userId);
-        validateCancellation(roomId, userId);
 
-        orderDAO.delete(new Order(orderDAO.getIdByRoomAndUser(roomId, userId)));
+        Order order = validateCancellationAndGetOrder(roomId, userId);
+
+        orderDAO.delete(order);
     }
 
     private void validateRoomAndUser(long roomId, long userId) throws InternalServerException, BadRequestException {
@@ -90,15 +90,18 @@ public class OrderService {
         }
     }
 
-    private void validateCancellation(long roomId, long userId) throws InternalServerException, BadRequestException {
-        Date orderDateFrom;
+    private Order validateCancellationAndGetOrder(long roomId, long userId)
+            throws InternalServerException, BadRequestException {
+
+        Order order;
         try {
-            orderDateFrom = orderDAO.findOrderByRoomAndUser(roomId, userId).getDateFrom();
+            order = orderDAO.findOrderByRoomAndUser(roomId, userId);
         } catch (NotFoundException e) {
             throw new BadRequestException("Missing order");
         }
-        if (orderDateFrom.before(new Date())) {
+        if (order.getDateFrom().before(new Date())) {
             throw new BadRequestException("Possible cancellation has expired");
         }
+        return order;
     }
 }

@@ -56,6 +56,7 @@ public class Room {
 
     @Column(name = "breakfast_included")
     public Integer getBreakfastIncluded() {
+        if (breakfastIncluded == null) return null;
         return breakfastIncluded ? 1 : 0;
     }
 
@@ -66,6 +67,7 @@ public class Room {
 
     @Column(name = "pets_allowed")
     public Integer getPetsAllowed() {
+        if (petsAllowed == null) return null;
         return petsAllowed ? 1 : 0;
     }
 

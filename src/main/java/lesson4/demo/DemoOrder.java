@@ -2,26 +2,24 @@ package lesson4.demo;
 
 import lesson4.controller.OrderController;
 import lesson4.controller.UserController;
-import lesson4.exception.*;
 
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class DemoOrder {
 
     private static final OrderController orderController = new OrderController();
     private static final UserController userController = new UserController();
 
-    public static void main(String[] args)
-            throws NoAccessException, InternalServerException, BadRequestException, NotFoundException, NotLogInException {
+    public static void main(String[] args) throws Exception {
 
-        userController.login("TEST1", "SuperPassword2");
+        userController.login("First", "SuperPassword");
 
-//        userController.login("DANARIM", "SuperPassword");
+        userController.login("Second", "SuperPassword2");
 
-//        orderController.bookRoom(5, 1,
-//                new SimpleDateFormat("dd.MM.yyyy kk:00").parse("27.06.2020 12:00"),
-//                new SimpleDateFormat("dd.MM.yyyy kk:00").parse("29.06.2020 12:00"));
+        orderController.bookRoom(3L, 2L,
+                new SimpleDateFormat("dd.MM.yyyy kk:00").parse("27.04.2022 11:00"),
+                new SimpleDateFormat("dd.MM.yyyy kk:00").parse("28.04.2022 12:00"));
 
-        orderController.cancelReservation(5, 2);
+        orderController.cancelReservation(3L, 2L);
     }
 }
